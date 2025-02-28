@@ -5,7 +5,15 @@ import { viteStaticCopy } from 'vite-plugin-static-copy'
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/sass/app.scss'],
+            input: [
+                'resources/css/app.css', 
+                'resources/sass/app.scss',
+                'resources/js/app.js',
+                'resources/assets/js/select2.js',
+                'resources/assets/js/index1.js',
+                'resources/assets/js/apexcharts.js',
+                'resources/assets/js/sticky.js'
+            ],
             refresh: true,
         }),
         viteStaticCopy({

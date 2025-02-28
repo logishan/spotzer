@@ -185,24 +185,49 @@
   },
   "resources/assets/images/media/12.jpg": {
     "file": "assets/12-7e48992d.jpg",
-    "src": "resources/assets/images/media/22.jpg"
+    "src": "resources/assets/images/media/25.jpg"
   },
   "resources/assets/images/media/19.jpg": {
     "file": "assets/12-7e48992d.jpg",
-    "src": "resources/assets/images/media/22.jpg"
+    "src": "resources/assets/images/media/25.jpg"
   },
   "resources/assets/images/media/22.jpg": {
     "file": "assets/12-7e48992d.jpg",
-    "src": "resources/assets/images/media/22.jpg"
+    "src": "resources/assets/images/media/25.jpg"
   },
   "resources/assets/images/media/25.jpg": {
     "file": "assets/12-7e48992d.jpg",
-    "src": "resources/assets/images/media/22.jpg"
+    "src": "resources/assets/images/media/25.jpg"
+  },
+  "resources/assets/js/apexcharts.js": {
+    "file": "assets/apexcharts-502879cc.js",
+    "isEntry": true,
+    "src": "resources/assets/js/apexcharts.js"
+  },
+  "resources/assets/js/index1.js": {
+    "file": "assets/index1-5de73451.js",
+    "isEntry": true,
+    "src": "resources/assets/js/index1.js"
+  },
+  "resources/assets/js/select2.js": {
+    "file": "assets/select2-eb416f6c.js",
+    "isEntry": true,
+    "src": "resources/assets/js/select2.js"
+  },
+  "resources/assets/js/sticky.js": {
+    "file": "assets/sticky-425e1fac.js",
+    "isEntry": true,
+    "src": "resources/assets/js/sticky.js"
   },
   "resources/css/app.css": {
     "file": "assets/app-d5580945.css",
     "isEntry": true,
     "src": "resources/css/app.css"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-3bcff588.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
     "file": "assets/app-9209bace.css",
