@@ -1126,6 +1126,36 @@
 										</ul>
 									</li>
 									<li class="sub-category">
+										<h3>Task Management</h3>
+									</li>
+									<li class="slide">
+										<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-check-square"></i><span
+											class="side-menu__label">Tasks</span><i
+											class="angle fe fe-chevron-right"></i>
+										</a>
+										<ul class="slide-menu">
+											<li class="panel sidetab-menu">
+												<div class="tab-menu-heading p-0 pb-2 border-0">
+													<div class="tabs-menu">
+														<ul class="nav panel-tabs">
+															<li><a href="#side-tasks" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
+														</ul>
+													</div>
+												</div>
+												<div class="panel-body tabs-menu-body p-0 border-0">
+													<div class="tab-content">
+														<div class="tab-pane active" id="side-tasks">
+															<ul class="sidemenu-list">
+																<li class="side-menu-label1"><a href="javascript:void(0);">Tasks</a></li>
+																<!-- <li><a href="{{url('task-groups')}}" class="slide-item">Task Groups</a></li> -->
+															</ul>
+														</div>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</li>
+									<li class="sub-category">
 										<h3>Pages</h3>
 									</li>
 									<li class="slide">
@@ -2089,8 +2119,9 @@
 											<i class="angle fa fa-angle-right"></i>
 										</a>
 										<ul class="slide-menu">
+											<li><a href="{{url('task-groups')}}" class="slide-item">Task Groups</a></li>
 											<li><a href="{{ route('task-types.index') }}" class="slide-item">Task Types</a></li>
-											<li><a href="{{ route('complexity-levels.index') }}" class="slide-item">Complexity Levels</a></li>
+											<li><a href="{{ route('task-complexity.index') }}" class="slide-item">Task Complexity</a></li>
 											<li><a href="{{ route('task-type-complexities.index') }}" class="slide-item">Task Type Complexities</a></li>
 										</ul>
 									</li>

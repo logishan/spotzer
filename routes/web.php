@@ -19,6 +19,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskTypeController;
 use App\Http\Controllers\ComplexityLevelController;
 use App\Http\Controllers\TaskTypeComplexityController;
+use App\Http\Controllers\TaskGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -200,7 +201,14 @@ Route::get('edit-table', [TablesController::class, 'edit_table']);
 Route::resource('task-types', TaskTypeController::class);
 
 // Complexity Levels Management
-Route::resource('complexity-levels', ComplexityLevelController::class);
+Route::resource('task-complexity', ComplexityLevelController::class);
 
 // Task Type Complexities Management
 Route::resource('task-type-complexities', TaskTypeComplexityController::class);
+
+// Task Groups Management
+Route::middleware(['auth'])->group(function () {
+    Route::resource('task-groups', TaskGroupController::class);
+    Route::post('task-groups/{taskGroup}/users/{user}/permissions', [TaskGroupController::class, 'updateUserPermissions'])
+        ->name('task-groups.update-user-permissions');
+});

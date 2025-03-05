@@ -30,21 +30,22 @@ class PagesController extends Controller
             'terms' => 'required|accepted'
         ]);
 
+        // Get default role (Employee) before creating user
+        $defaultRole = Role::where('name', 'Employee')->first();
+        if (!$defaultRole) {
+            return back()->with('error', 'Default role not found. Please contact administrator.');
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'is_active' => true,
+            'role_id' => $defaultRole->id, // Set the role_id during creation
         ]);
 
         // Assign department
         $user->departments()->attach($request->department_id);
-
-        // Assign default role (Employee)
-        $defaultRole = Role::where('name', 'Employee')->first();
-        if ($defaultRole) {
-            $user->roles()->attach($defaultRole->id);
-        }
 
         // Log the user in
         auth()->login($user);

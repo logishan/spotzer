@@ -24,7 +24,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Complexity Levels</h3>
                     <div class="card-options">
-                        <a href="{{ route('complexity-levels.create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('task-complexity.create') }}" class="btn btn-primary btn-sm">
                             <i class="fe fe-plus"></i> Add Complexity Level
                         </a>
                     </div>
@@ -42,7 +42,7 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table id="complexity-levels-table" class="table table-bordered text-nowrap border-bottom">
+                        <table id="task-complexity-table" class="table table-bordered text-nowrap border-bottom">
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">Name</th>
@@ -60,10 +60,10 @@
                                             <span class="badge bg-primary">{{ $level->task_type_complexities_count }}</span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('complexity-levels.edit', $level) }}" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('task-complexity.edit', $level) }}" class="btn btn-primary btn-sm">
                                                 <i class="fe fe-edit-2"></i>
                                             </a>
-                                            <form action="{{ route('complexity-levels.destroy', $level) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('task-complexity.destroy', $level) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complexity level?')">
@@ -98,7 +98,7 @@
     <script src="{{ asset('assets/plugins/datatable/responsive.bootstrap5.min.js') }}"></script>
     <script>
         $(function() {
-            $('#complexity-levels-table').DataTable({
+            $('#task-complexity-table').DataTable({
                 responsive: true,
                 lengthChange: false,
                 order: [[0, 'asc']],

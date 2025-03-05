@@ -13,12 +13,12 @@ class ComplexityLevelController extends Controller
             ->orderBy('name')
             ->get();
         
-        return view('complexity-levels.index', compact('complexityLevels'));
+        return view('task-complexity.index', compact('complexityLevels'));
     }
 
     public function create()
     {
-        return view('complexity-levels.create');
+        return view('task-complexity.create');
     }
 
     public function store(Request $request)
@@ -30,13 +30,13 @@ class ComplexityLevelController extends Controller
 
         ComplexityLevel::create($validated);
 
-        return redirect()->route('complexity-levels.index')
+        return redirect()->route('task-complexity.index')
             ->with('success', 'Complexity level created successfully.');
     }
 
     public function edit(ComplexityLevel $complexityLevel)
     {
-        return view('complexity-levels.edit', compact('complexityLevel'));
+        return view('task-complexity.edit', compact('complexityLevel'));
     }
 
     public function update(Request $request, ComplexityLevel $complexityLevel)
@@ -48,20 +48,20 @@ class ComplexityLevelController extends Controller
 
         $complexityLevel->update($validated);
 
-        return redirect()->route('complexity-levels.index')
+        return redirect()->route('task-complexity.index')
             ->with('success', 'Complexity level updated successfully.');
     }
 
     public function destroy(ComplexityLevel $complexityLevel)
     {
         if ($complexityLevel->taskTypeComplexities()->exists()) {
-            return redirect()->route('complexity-levels.index')
+            return redirect()->route('task-complexity.index')
                 ->with('error', 'Cannot delete complexity level that is in use.');
         }
 
         $complexityLevel->delete();
 
-        return redirect()->route('complexity-levels.index')
+        return redirect()->route('task-complexity.index')
             ->with('success', 'Complexity level deleted successfully.');
     }
 } 

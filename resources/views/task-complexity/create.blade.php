@@ -6,7 +6,7 @@
         <div>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('complexity-levels.index') }}">Complexity Levels</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('task-complexity.index') }}">Task Complexity</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Create</li>
             </ol>
         </div>
@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Create Complexity Level</h3>
                     <div class="card-options">
-                        <a href="{{ route('complexity-levels.index') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('task-complexity.index') }}" class="btn btn-primary btn-sm">
                             <i class="fe fe-list"></i> Back to List
                         </a>
                     </div>
@@ -34,7 +34,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('complexity-levels.store') }}" method="POST">
+                    <form action="{{ route('task-complexity.store') }}" method="POST">
                         @csrf
                         <div class="form-group mb-3">
                             <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
