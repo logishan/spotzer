@@ -12,7 +12,8 @@ export default defineConfig({
                 'resources/assets/js/select2.js',
                 'resources/assets/js/index1.js',
                 'resources/assets/js/apexcharts.js',
-                'resources/assets/js/sticky.js'
+                'resources/assets/js/sticky.js',
+                'resources/assets/js/fullcalendar.js'
             ],
             refresh: true,
         }),

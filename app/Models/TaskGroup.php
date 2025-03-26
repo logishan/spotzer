@@ -51,4 +51,19 @@ class TaskGroup extends Model
         return $this->belongsToMany(Department::class, 'task_group_departments')
             ->withTimestamps();
     }
+
+    public function taskTypes()
+    {
+        return $this->hasMany(TaskType::class);
+    }
+
+    public function taskTypeComplexities()
+    {
+        return $this->hasMany(TaskTypeComplexity::class);
+    }
+
+    public function complexityLevels()
+    {
+        return $this->hasMany(ComplexityLevel::class);
+    }
 } 

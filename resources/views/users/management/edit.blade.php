@@ -80,6 +80,35 @@
                         </div>
 
                         <div class="form-group mb-3">
+                            <label for="shift_schedule_id" class="form-label">Shift Schedule</label>
+                            <select class="form-control select2 @error('shift_schedule_id') is-invalid @enderror" id="shift_schedule_id" name="shift_schedule_id">
+                                <option value="">Select Shift Schedule</option>
+                                @foreach($shiftSchedules as $shiftSchedule)
+                                    <option value="{{ $shiftSchedule->id }}" {{ old('shift_schedule_id', $user->shift_schedule_id) == $shiftSchedule->id ? 'selected' : '' }}>
+                                        {{ $shiftSchedule->name }} ({{ $shiftSchedule->start_time }} - {{ $shiftSchedule->end_time }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('shift_schedule_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="task_group_ids" class="form-label">Task Groups</label>
+                            <select class="form-control select2 @error('task_group_ids') is-invalid @enderror" id="task_group_ids" name="task_group_ids[]" multiple>
+                                @foreach($taskGroups as $taskGroup)
+                                    <option value="{{ $taskGroup->id }}" {{ in_array($taskGroup->id, old('task_group_ids', $user->taskGroups->pluck('id')->toArray())) ? 'selected' : '' }}>
+                                        {{ $taskGroup->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('task_group_ids')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
                             <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                             <select class="form-control @error('status') is-invalid @enderror" id="status" name="status" required>
                                 <option value="active" {{ old('status', $user->status) === 'active' ? 'selected' : '' }}>Active</option>

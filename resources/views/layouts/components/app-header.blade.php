@@ -58,6 +58,16 @@
 												</a>
 											</div>
 											<!-- COUNTRY -->
+											<!-- Clock In button for mobile -->
+											<div class="d-flex d-lg-none mb-2">
+												<form action="{{ route('attendances.check-in') }}" method="POST">
+													@csrf
+													<button type="submit" class="btn btn-success btn-sm rounded-pill">
+														<i class="fe fe-clock me-1"></i> Clock In
+													</button>
+												</form>
+											</div>
+											<!-- Mobile CLOCK IN BUTTON -->
 											<div class="d-flex">
 												<a class="nav-link icon theme-layout nav-link-bg layout-setting">
 													<span class="dark-layout"><i class="fe fe-moon"></i></span>
@@ -254,6 +264,16 @@
 												</div>
 											</div>
 											<!-- NOTIFICATIONS -->
+											<!-- Adding Clock In button here -->
+											<div class="dropdown d-none d-md-flex me-3 my-auto">
+												<form action="{{ route('attendances.check-in') }}" method="POST">
+													@csrf
+													<button type="submit" class="btn btn-success btn-sm rounded-pill">
+														<i class="fe fe-clock me-1"></i> Clock In
+													</button>
+												</form>
+											</div>
+											<!-- CLOCK IN BUTTON -->
 											<div class="dropdown  d-flex message">
 												<a class="nav-link icon text-center" data-bs-toggle="dropdown">
 													<i class="fe fe-message-square"></i><span class="pulse-danger"></span>

@@ -24,6 +24,11 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">All Users</h3>
+                    <div class="card-options">
+                        <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">
+                            <i class="fe fe-plus"></i> Create New User
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if(session('success'))
@@ -46,6 +51,7 @@
                                     <th class="border-bottom-0">Email</th>
                                     <th class="border-bottom-0">Role</th>
                                     <th class="border-bottom-0">Department</th>
+                                    <th class="border-bottom-0">Task Groups</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
@@ -64,6 +70,14 @@
                                             @foreach($user->departments as $department)
                                                 <span class="">{{ $department->name }}</span>
                                             @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach($user->taskGroups as $taskGroup)
+                                                <span class="badge bg-primary me-1">{{ $taskGroup->name }}</span>
+                                            @endforeach
+                                            @if($user->taskGroups->isEmpty())
+                                                <span class="text-muted">No task groups assigned</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <span class="fs-6 badge bg-{{ $user->status === 'active' ? 'success' : 'danger' }}">

@@ -26,6 +26,8 @@ class User extends Authenticatable
         'status',
         'role_id',
         'is_active',
+        'department_id',
+        'shift_schedule_id'
     ];
 
     /**
@@ -49,6 +51,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the user's primary department
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    /**
      * Get the roles associated with the user
      */
     public function roles()
@@ -58,11 +68,20 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the departments associated with the user
+     * Get all departments associated with the user
      */
     public function departments()
     {
         return $this->belongsToMany(Department::class, 'user_departments')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Get all task groups associated with the user
+     */
+    public function taskGroups()
+    {
+        return $this->belongsToMany(TaskGroup::class, 'user_task_groups')
                     ->withTimestamps();
     }
 
@@ -80,6 +99,22 @@ class User extends Authenticatable
     public function primaryRole()
     {
         return $this->roles()->orderBy('level')->first();
+    }
+
+    /**
+     * Get the user's shift schedule
+     */
+    public function shiftSchedule()
+    {
+        return $this->belongsTo(ShiftSchedule::class);
+    }
+
+    /**
+     * Get the user's attendance records
+     */
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
     }
 
     /**

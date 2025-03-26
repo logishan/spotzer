@@ -196,6 +196,25 @@
 											</li>
 										</ul>
 									</li>
+									
+									<!-- HR Management Section Start -->
+									<li class="sub-category">
+										<h3>HR Management</h3>
+									</li>
+									<li class="slide">
+										<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
+											<i class="side-menu__icon fe fe-users"></i>
+											<span class="side-menu__label">HR Management</span>
+											<i class="angle fe fe-chevron-right"></i>
+										</a>
+										<ul class="slide-menu">
+											<li><a href="{{ route('shift-schedules.index') }}" class="slide-item">Shift Schedules</a></li>
+											<li><a href="{{ route('attendances.index') }}" class="slide-item">Attendance</a></li>
+											<li><a href="{{ route('attendances.sheet') }}" class="slide-item">Attendance Sheet</a></li>
+											<li><a href="{{ route('users.index') }}" class="slide-item">User Management</a></li>
+										</ul>
+									</li>
+									<!-- HR Management Section End -->
 									<li class="sub-category">
 										<h3>Widgets & Maps</h3>
 									</li>
@@ -389,7 +408,7 @@
 														<!-- Tabs -->
 														<ul class="nav panel-tabs">
 															<li><a href="#side9" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-monitor me-2"></i><p>Home</p></a></li>
-																<li><a href="#side10" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
+															<li><a href="#side10" data-bs-toggle="tab" class="d-flex"><i class="fe fe-message-square me-2"></i><p>Chat</p></a></li>
 														</ul>
 													</div>
 												</div>
@@ -2123,6 +2142,36 @@
 											<li><a href="{{ route('task-types.index') }}" class="slide-item">Task Types</a></li>
 											<li><a href="{{ route('task-complexity.index') }}" class="slide-item">Task Complexity</a></li>
 											<li><a href="{{ route('task-type-complexities.index') }}" class="slide-item">Task Type Complexities</a></li>
+										</ul>
+									</li>
+									<li class="slide">
+										<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-home"></i><span
+											class="side-menu__label">Spotzer Team</span><i
+											class="angle fe fe-chevron-right"></i>
+										</a>
+										<ul class="slide-menu">
+											<li class="panel sidetab-menu">
+												<div class="tab-menu-heading p-0 pb-2 border-0">
+													<div class="tabs-menu ">
+														<!-- Tabs -->
+														<ul class="nav panel-tabs">
+															<li><a href="#spotzer-team" class="d-flex active" data-bs-toggle="tab"><i class="fe fe-users me-2"></i><p>Team</p></a></li>
+														</ul>
+													</div>
+												</div>
+												<div class="panel-body tabs-menu-body p-0 border-0">
+													<div class="tab-content">
+														<div class="tab-pane active" id="spotzer-team">
+															<ul class="sidemenu-list">
+																<li class="side-menu-label1"><a href="javascript:void(0);">Spotzer Team</a></li>
+																<li><a href="{{url('users')}}" class="slide-item">Users</a></li>
+																<li><a href="{{url('roles')}}" class="slide-item">Roles</a></li>
+																<li><a href="{{url('departments')}}" class="slide-item">Departments</a></li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</li>
 										</ul>
 									</li>
 								</ul>

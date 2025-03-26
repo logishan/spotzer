@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskType;
+use App\Models\TaskGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,7 @@ class TaskTypeController extends Controller
 
     public function index()
     {
-        $taskTypes = TaskType::with('complexities.complexityLevel')
+        $taskTypes = TaskType::with(['complexities.complexityLevel', 'taskGroup'])
             ->withCount('complexities')
             ->get();
         
@@ -24,7 +25,8 @@ class TaskTypeController extends Controller
 
     public function create()
     {
-        return view('task-types.create');
+        $taskGroups = TaskGroup::where('is_active', true)->orderBy('name')->get();
+        return view('task-types.create', compact('taskGroups'));
     }
 
     public function store(Request $request)
@@ -37,8 +39,8 @@ class TaskTypeController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:task_types,name',
-            'description' => 'nullable|string',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'task_group_id' => 'required|exists:task_groups,id'
         ]);
 
         $validated['created_by'] = Auth::id();
@@ -52,15 +54,16 @@ class TaskTypeController extends Controller
 
     public function edit(TaskType $taskType)
     {
-        return view('task-types.edit', compact('taskType'));
+        $taskGroups = TaskGroup::where('is_active', true)->orderBy('name')->get();
+        return view('task-types.edit', compact('taskType', 'taskGroups'));
     }
 
     public function update(Request $request, TaskType $taskType)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:task_types,name,' . $taskType->id,
-            'description' => 'nullable|string',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
+            'task_group_id' => 'required|exists:task_groups,id'
         ]);
 
         $validated['updated_by'] = Auth::id();

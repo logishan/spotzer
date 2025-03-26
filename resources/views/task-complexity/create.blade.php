@@ -37,17 +37,24 @@
                     <form action="{{ route('task-complexity.store') }}" method="POST">
                         @csrf
                         <div class="form-group mb-3">
-                            <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                            @error('name')
+                            <label class="form-label" for="task_group_id">Task Group <span class="text-danger">*</span></label>
+                            <select class="form-control @error('task_group_id') is-invalid @enderror" id="task_group_id" name="task_group_id" required>
+                                <option value="">Select Task Group</option>
+                                @foreach($taskGroups as $taskGroup)
+                                    <option value="{{ $taskGroup->id }}" {{ old('task_group_id') == $taskGroup->id ? 'selected' : '' }}>
+                                        {{ $taskGroup->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('task_group_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        
                         <div class="form-group mb-3">
-                            <label class="form-label" for="description">Description</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
-                            @error('description')
+                            <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                            @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

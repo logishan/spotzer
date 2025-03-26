@@ -4,25 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TaskTypeComplexity extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'task_type_id',
         'complexity_level_id',
         'allocated_minutes',
-        'effective_from',
-        'effective_to',
+        'is_active',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'task_group_id',
+        'description'
     ];
 
     protected $casts = [
-        'effective_from' => 'datetime',
-        'effective_to' => 'datetime'
+        'is_active' => 'boolean'
     ];
+
+    /**
+     * Scope a query to only include active task type complexities.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     public function taskType()
     {
@@ -32,6 +41,11 @@ class TaskTypeComplexity extends Model
     public function complexityLevel()
     {
         return $this->belongsTo(ComplexityLevel::class);
+    }
+
+    public function taskGroup()
+    {
+        return $this->belongsTo(TaskGroup::class);
     }
 
     public function tasks()

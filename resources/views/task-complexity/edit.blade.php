@@ -34,21 +34,28 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('task-complexity.update', $complexityLevel) }}" method="POST">
+                    <form action="{{ route('task-complexity.update', $task_complexity) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="form-group mb-3">
-                            <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $complexityLevel->name) }}" required>
-                            @error('name')
+                            <label class="form-label" for="task_group_id">Task Group <span class="text-danger">*</span></label>
+                            <select class="form-control @error('task_group_id') is-invalid @enderror" id="task_group_id" name="task_group_id" required>
+                                <option value="">Select Task Group</option>
+                                @foreach($taskGroups as $taskGroup)
+                                    <option value="{{ $taskGroup->id }}" {{ (old('task_group_id', $task_complexity->task_group_id) == $taskGroup->id) ? 'selected' : '' }}>
+                                        {{ $taskGroup->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('task_group_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        
                         <div class="form-group mb-3">
-                            <label class="form-label" for="description">Description</label>
-                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description', $complexityLevel->description) }}</textarea>
-                            @error('description')
+                            <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $task_complexity->name) }}" required>
+                            @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -62,7 +69,7 @@
         </div>
     </div>
 
-    @if($complexityLevel->taskTypeComplexities->isNotEmpty())
+    @if($task_complexity->taskTypeComplexities->isNotEmpty())
         <div class="row mt-4">
             <div class="col-lg-12 col-md-12">
                 <div class="card">
@@ -81,11 +88,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($complexityLevel->taskTypeComplexities as $complexity)
+                                    @foreach($task_complexity->taskTypeComplexities as $complexity)
                                         <tr>
                                             <td>{{ $complexity->taskType->name }}</td>
                                             <td>{{ $complexity->allocated_minutes }}</td>
-                                            <td>{{ $complexity->effective_from->format('Y-m-d') }}</td>
+                                            <td>{{ $complexity->effective_from ? $complexity->effective_from->format('Y-m-d') : 'N/A' }}</td>
                                             <td>{{ $complexity->effective_to ? $complexity->effective_to->format('Y-m-d') : 'Ongoing' }}</td>
                                         </tr>
                                     @endforeach
@@ -97,4 +104,38 @@
             </div>
         </div>
     @endif
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        // Function to filter task types based on selected task group
+        function filterTaskTypes() {
+            const selectedGroupId = $('#task_group_id').val();
+            
+            // Hide all options first
+            $('#task_type_id option').hide();
+            $('#task_type_id option[value=""]').show(); // Always show the placeholder
+            
+            // Show only task types that belong to the selected group
+            if (selectedGroupId) {
+                $('#task_type_id option[data-group="' + selectedGroupId + '"]').show();
+            } else {
+                // If no group selected, show all task types
+                $('#task_type_id option').show();
+            }
+            
+            // Reset selection if the current selection is now hidden
+            if ($('#task_type_id option:selected').css('display') === 'none') {
+                $('#task_type_id').val('');
+            }
+        }
+        
+        // Filter task types when the page loads
+        filterTaskTypes();
+        
+        // Filter task types when the task group selection changes
+        $('#task_group_id').on('change', filterTaskTypes);
+    });
+</script>
 @endsection 

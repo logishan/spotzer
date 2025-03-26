@@ -79,45 +79,155 @@
                                     <span class="badge bg-primary me-1">{{ $department->name }}</span>
                                 @endforeach
                             @else
-                                <span class="text-muted">No departments assigned</span>
+                                <span class="text-muted">No departments assigned - This task group is not restricted by department</span>
                             @endif
                         </div>
                     </div>
 
                     <div class="form-group mb-4">
-                        <label class="form-label">Users</label>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Permissions</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($taskGroup->users as $user)
+                        <label class="form-label">Users with Access</label>
+                        @if($taskGroup->users->isNotEmpty())
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>
-                                                <span class="badge bg-{{ $user->pivot->can_edit ? 'success' : 'info' }}">
-                                                    {{ $user->pivot->can_edit ? 'Can Edit' : 'View Only' }}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm {{ $user->pivot->can_edit ? 'btn-warning' : 'btn-success' }}"
-                                                    onclick="toggleUserPermission({{ $taskGroup->id }}, {{ $user->id }}, {{ $user->pivot->can_edit ? 'false' : 'true' }})">
-                                                    <i class="fe fe-{{ $user->pivot->can_edit ? 'eye' : 'edit-2' }}"></i>
-                                                    {{ $user->pivot->can_edit ? 'Set to View Only' : 'Grant Edit Access' }}
-                                                </button>
-                                            </td>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Department</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($taskGroup->users as $user)
+                                            <tr>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>
+                                                    @if($user->departments->isNotEmpty())
+                                                        @foreach($user->departments as $department)
+                                                            <span class="badge bg-primary me-1">{{ $department->name }}</span>
+                                                        @endforeach
+                                                    @else
+                                                        <span class="text-muted">No department assigned</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-muted">No specific users assigned - Access is controlled by department only</div>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Task Types</label>
+                        @if($taskGroup->taskTypes->isNotEmpty())
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($taskGroup->taskTypes as $taskType)
+                                            <tr>
+                                                <td>{{ $taskType->name }}</td>
+                                                <td>
+                                                    <span class="badge bg-{{ $taskType->is_active ? 'success' : 'danger' }}">
+                                                        {{ $taskType->is_active ? 'Active' : 'Inactive' }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('task-types.edit', $taskType) }}" class="btn btn-sm btn-primary">
+                                                        <i class="fe fe-edit"></i> Edit
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-muted">No task types assigned to this group</div>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Task Type Complexities</label>
+                        @if($taskGroup->taskTypeComplexities->isNotEmpty())
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Task Type</th>
+                                            <th>Complexity Level</th>
+                                            <th>Allocated Minutes</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($taskGroup->taskTypeComplexities as $complexity)
+                                            <tr>
+                                                <td>{{ $complexity->taskType->name }}</td>
+                                                <td>{{ $complexity->complexityLevel->name }}</td>
+                                                <td>{{ $complexity->allocated_minutes }}</td>
+                                                <td>
+                                                    <span class="badge bg-{{ $complexity->is_active ? 'success' : 'danger' }}">
+                                                        {{ $complexity->is_active ? 'Active' : 'Inactive' }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('task-type-complexities.edit', $complexity) }}" class="btn btn-sm btn-primary">
+                                                        <i class="fe fe-edit"></i> Edit
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-muted">No task type complexities assigned to this group</div>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Complexity Levels</label>
+                        @if($taskGroup->complexityLevels->isNotEmpty())
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Task Types Count</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($taskGroup->complexityLevels as $level)
+                                            <tr>
+                                                <td>{{ $level->name }}</td>
+                                                <td>
+                                                    <span class="badge bg-primary">{{ $level->taskTypeComplexities->count() }}</span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('task-complexity.edit', ['task_complexity' => $level->id]) }}" class="btn btn-sm btn-primary">
+                                                        <i class="fe fe-edit"></i> Edit
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-muted">No complexity levels assigned to this group</div>
+                        @endif
                     </div>
 
                     <div class="form-group">
@@ -161,29 +271,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        function toggleUserPermission(taskGroupId, userId, canEdit) {
-            fetch(`/task-groups/${taskGroupId}/users/${userId}/permissions`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ can_edit: canEdit })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    location.reload();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to update user permissions');
-            });
-        }
-    </script>
 @endsection 

@@ -46,7 +46,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">Name</th>
-                                    <th class="border-bottom-0">Description</th>
+                                    <th class="border-bottom-0">Task Group</th>
                                     <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Complexity Levels</th>
                                     <th class="border-bottom-0">Actions</th>
@@ -56,7 +56,15 @@
                                 @foreach($taskTypes as $taskType)
                                     <tr>
                                         <td>{{ $taskType->name }}</td>
-                                        <td>{{ $taskType->description }}</td>
+                                        <td>
+                                            @if($taskType->taskGroup)
+                                                <a href="{{ route('task-groups.show', $taskType->taskGroup) }}">
+                                                    {{ $taskType->taskGroup->name }}
+                                                </a>
+                                            @else
+                                                <span class="text-muted">No group assigned</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <span class="badge bg-{{ $taskType->is_active ? 'success' : 'danger' }}">
                                                 {{ $taskType->is_active ? 'Active' : 'Inactive' }}

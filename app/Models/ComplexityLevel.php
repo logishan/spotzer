@@ -11,7 +11,7 @@ class ComplexityLevel extends Model
 
     protected $fillable = [
         'name',
-        'description'
+        'task_group_id'
     ];
 
     public function taskTypeComplexities()
@@ -22,7 +22,12 @@ class ComplexityLevel extends Model
     public function taskTypes()
     {
         return $this->belongsToMany(TaskType::class, 'task_type_complexities')
-            ->withPivot(['allocated_minutes', 'effective_from', 'effective_to'])
+            ->withPivot(['allocated_minutes'])
             ->withTimestamps();
+    }
+    
+    public function taskGroup()
+    {
+        return $this->belongsTo(TaskGroup::class);
     }
 } 

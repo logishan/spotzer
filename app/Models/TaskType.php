@@ -11,10 +11,10 @@ class TaskType extends Model
 
     protected $fillable = [
         'name',
-        'description',
         'is_active',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'task_group_id'
     ];
 
     protected $casts = [
@@ -34,5 +34,10 @@ class TaskType extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+    
+    public function taskGroup()
+    {
+        return $this->belongsTo(TaskGroup::class);
     }
 } 

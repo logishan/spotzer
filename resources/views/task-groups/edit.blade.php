@@ -59,28 +59,30 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label" for="departments">Departments <span class="text-danger">*</span></label>
-                            <select name="departments[]" id="departments" class="form-control select2 @error('departments') is-invalid @enderror" multiple required>
+                            <label class="form-label" for="departments">Departments</label>
+                            <select name="departments[]" id="departments" class="form-control select2 @error('departments') is-invalid @enderror" multiple>
                                 @foreach($departments as $department)
                                     <option value="{{ $department->id }}" {{ in_array($department->id, old('departments', $taskGroup->departments->pluck('id')->toArray())) ? 'selected' : '' }}>
                                         {{ $department->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            <small class="form-text text-muted">Optional - Leave empty if this task group is not restricted by department</small>
                             @error('departments')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label" for="users">Users <span class="text-danger">*</span></label>
-                            <select name="users[]" id="users" class="form-control select2 @error('users') is-invalid @enderror" multiple required>
+                            <label class="form-label" for="users">Users</label>
+                            <select name="users[]" id="users" class="form-control select2 @error('users') is-invalid @enderror" multiple>
                                 @foreach($users as $user)
                                     <option value="{{ $user->id }}" {{ in_array($user->id, old('users', $taskGroup->users->pluck('id')->toArray())) ? 'selected' : '' }}>
                                         {{ $user->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            <small class="form-text text-muted">Optional - Leave empty if access is controlled by department only</small>
                             @error('users')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

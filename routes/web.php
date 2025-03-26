@@ -20,6 +20,8 @@ use App\Http\Controllers\TaskTypeController;
 use App\Http\Controllers\ComplexityLevelController;
 use App\Http\Controllers\TaskTypeComplexityController;
 use App\Http\Controllers\TaskGroupController;
+use App\Http\Controllers\ShiftScheduleController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +114,8 @@ Route::resource('roles', RoleController::class);
 // User Management routes
 Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
     Route::get('/', [UserManagementController::class, 'index'])->name('index');
+    Route::get('/create', [UserManagementController::class, 'create'])->name('create');
+    Route::post('/', [UserManagementController::class, 'store'])->name('store');
     Route::get('/{user}/edit', [UserManagementController::class, 'edit'])->name('edit');
     Route::put('/{user}', [UserManagementController::class, 'update'])->name('update');
     Route::delete('/{user}', [UserManagementController::class, 'destroy'])->name('destroy');
@@ -211,4 +215,20 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('task-groups', TaskGroupController::class);
     Route::post('task-groups/{taskGroup}/users/{user}/permissions', [TaskGroupController::class, 'updateUserPermissions'])
         ->name('task-groups.update-user-permissions');
+});
+
+// Shift Schedules Management
+Route::middleware(['auth'])->group(function () {
+    Route::resource('shift-schedules', ShiftScheduleController::class);
+});
+
+// Attendance Management
+Route::middleware(['auth'])->group(function () {
+    // Specific routes must come BEFORE the resource controller
+    Route::get('attendances/sheet', [AttendanceController::class, 'sheet'])->name('attendances.sheet');
+    Route::post('check-in', [AttendanceController::class, 'checkIn'])->name('attendances.check-in');
+    Route::post('check-out', [AttendanceController::class, 'checkOut'])->name('attendances.check-out');
+    
+    // Resource controller (with all CRUD routes) comes last
+    Route::resource('attendances', AttendanceController::class);
 });

@@ -46,7 +46,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">Name</th>
-                                    <th class="border-bottom-0">Description</th>
+                                    <th class="border-bottom-0">Task Group</th>
                                     <th class="border-bottom-0">Task Types</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
@@ -55,15 +55,23 @@
                                 @foreach($complexityLevels as $level)
                                     <tr>
                                         <td>{{ $level->name }}</td>
-                                        <td>{{ $level->description }}</td>
+                                        <td>
+                                            @if($level->taskGroup)
+                                                <a href="{{ route('task-groups.show', $level->taskGroup) }}">
+                                                    {{ $level->taskGroup->name }}
+                                                </a>
+                                            @else
+                                                <span class="text-muted">No group assigned</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <span class="badge bg-primary">{{ $level->task_type_complexities_count }}</span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('task-complexity.edit', $level) }}" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('task-complexity.edit', ['task_complexity' => $level->id]) }}" class="btn btn-primary btn-sm">
                                                 <i class="fe fe-edit-2"></i>
                                             </a>
-                                            <form action="{{ route('task-complexity.destroy', $level) }}" method="POST" class="d-inline">
+                                            <form action="{{ route('task-complexity.destroy', ['task_complexity' => $level->id]) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this complexity level?')">

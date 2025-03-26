@@ -43,11 +43,26 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group mb-3">
+                            <label class="form-label" for="task_group_id">Task Group <span class="text-danger">*</span></label>
+                            <select class="form-control @error('task_group_id') is-invalid @enderror" id="task_group_id" name="task_group_id" required>
+                                <option value="">Select Task Group</option>
+                                @foreach($taskGroups as $taskGroup)
+                                    <option value="{{ $taskGroup->id }}" {{ (old('task_group_id', $taskTypeComplexity->task_group_id) == $taskGroup->id) ? 'selected' : '' }}>
+                                        {{ $taskGroup->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('task_group_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mb-3">
                             <label class="form-label" for="task_type_id">Task Type <span class="text-danger">*</span></label>
                             <select class="form-control @error('task_type_id') is-invalid @enderror" id="task_type_id" name="task_type_id" required>
                                 <option value="">Select Task Type</option>
                                 @foreach($taskTypes as $taskType)
-                                    <option value="{{ $taskType->id }}" {{ old('task_type_id', $taskTypeComplexity->task_type_id) == $taskType->id ? 'selected' : '' }}>
+                                    <option value="{{ $taskType->id }}" data-group="{{ $taskType->task_group_id }}" {{ (old('task_type_id', $taskTypeComplexity->task_type_id) == $taskType->id) ? 'selected' : '' }}>
                                         {{ $taskType->name }}
                                     </option>
                                 @endforeach
@@ -72,38 +87,33 @@
                             @enderror
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label class="form-label" for="allocated_minutes">Allocated Minutes <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('allocated_minutes') is-invalid @enderror" id="allocated_minutes" name="allocated_minutes" value="{{ old('allocated_minutes', $taskTypeComplexity->allocated_minutes) }}" required min="1">
+                        <div class="form-group">
+                            <label for="allocated_minutes" class="form-label">Allocated Minutes <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control @error('allocated_minutes') is-invalid @enderror" id="allocated_minutes" name="allocated_minutes" value="{{ old('allocated_minutes', $taskTypeComplexity->allocated_minutes) }}" min="1" required>
                             @error('allocated_minutes')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label" for="effective_from">Effective From <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control flatpickr @error('effective_from') is-invalid @enderror" id="effective_from" name="effective_from" value="{{ old('effective_from', $taskTypeComplexity->effective_from->format('Y-m-d')) }}" required>
-                            @error('effective_from')
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description', $taskTypeComplexity->description) }}</textarea>
+                            @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="form-group mb-3">
-                            <label class="form-label" for="effective_to">Effective To</label>
-                            <input type="text" class="form-control flatpickr @error('effective_to') is-invalid @enderror" id="effective_to" name="effective_to" value="{{ old('effective_to', $taskTypeComplexity->effective_to ? $taskTypeComplexity->effective_to->format('Y-m-d') : '') }}">
-                            <small class="form-text text-muted">Leave blank if this is an ongoing configuration.</small>
-                            @error('effective_to')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="is_active" name="is_active" value="1" {{ old('is_active', $taskTypeComplexity->is_active) ? 'checked' : '' }}>
+                                <label class="custom-control-label" for="is_active">Active</label>
+                            </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label" for="change_reason">Reason for Change</label>
-                            <textarea class="form-control @error('change_reason') is-invalid @enderror" id="change_reason" name="change_reason" rows="3">{{ old('change_reason') }}</textarea>
+                            <label class="form-label" for="reason">Reason for Change</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="3">{{ old('reason') }}</textarea>
                             <small class="form-text text-muted">Please provide a reason if you're changing the allocated minutes.</small>
-                            @error('change_reason')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <div class="form-footer">
@@ -126,6 +136,36 @@
                 dateFormat: "Y-m-d",
                 allowInput: true
             });
+        });
+
+        $(document).ready(function() {
+            // Function to filter task types based on selected task group
+            function filterTaskTypes() {
+                const selectedGroupId = $('#task_group_id').val();
+                
+                // Hide all options first
+                $('#task_type_id option').hide();
+                $('#task_type_id option[value=""]').show(); // Always show the placeholder
+                
+                // Show only task types that belong to the selected group
+                if (selectedGroupId) {
+                    $('#task_type_id option[data-group="' + selectedGroupId + '"]').show();
+                } else {
+                    // If no group selected, show all task types
+                    $('#task_type_id option').show();
+                }
+                
+                // Reset selection if the current selection is now hidden
+                if ($('#task_type_id option:selected').css('display') === 'none') {
+                    $('#task_type_id').val('');
+                }
+            }
+            
+            // Filter task types when the page loads
+            filterTaskTypes();
+            
+            // Filter task types when the task group selection changes
+            $('#task_group_id').on('change', filterTaskTypes);
         });
     </script>
 @endsection 

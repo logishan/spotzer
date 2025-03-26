@@ -204,6 +204,11 @@
     "isEntry": true,
     "src": "resources/assets/js/apexcharts.js"
   },
+  "resources/assets/js/fullcalendar.js": {
+    "file": "assets/fullcalendar-d2e87e47.js",
+    "isEntry": true,
+    "src": "resources/assets/js/fullcalendar.js"
+  },
   "resources/assets/js/index1.js": {
     "file": "assets/index1-5de73451.js",
     "isEntry": true,

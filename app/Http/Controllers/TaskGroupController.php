@@ -33,9 +33,9 @@ class TaskGroupController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_active' => 'boolean',
-            'departments' => 'required|array',
+            'departments' => 'nullable|array',
             'departments.*' => 'exists:departments,id',
-            'users' => 'required|array',
+            'users' => 'nullable|array',
             'users.*' => 'exists:users,id'
         ]);
 
@@ -47,18 +47,22 @@ class TaskGroupController extends Controller
             'updated_by' => Auth::id(),
         ]);
 
-        // Sync departments
-        $taskGroup->departments()->sync($validated['departments']);
+        // Sync departments if provided
+        if (!empty($validated['departments'])) {
+            $taskGroup->departments()->sync($validated['departments']);
+        }
 
-        // Sync users with default permissions
-        $userPermissions = collect($validated['users'])->mapWithKeys(function ($userId) {
-            return [$userId => [
-                'can_view' => true,
-                'can_edit' => false,
-                'granted_by' => Auth::id()
-            ]];
-        });
-        $taskGroup->users()->sync($userPermissions);
+        // Sync users if provided
+        if (!empty($validated['users'])) {
+            $userPermissions = collect($validated['users'])->mapWithKeys(function ($userId) {
+                return [$userId => [
+                    'can_view' => true,
+                    'can_edit' => false,
+                    'granted_by' => Auth::id()
+                ]];
+            });
+            $taskGroup->users()->sync($userPermissions);
+        }
 
         return redirect()->route('task-groups.index')
             ->with('success', 'Task group created successfully.');
@@ -66,7 +70,17 @@ class TaskGroupController extends Controller
 
     public function show(TaskGroup $taskGroup)
     {
-        $taskGroup->load(['creator', 'departments', 'users', 'tasks']);
+        $taskGroup->load([
+            'creator', 
+            'departments', 
+            'users.departments',
+            'tasks',
+            'taskTypes',
+            'taskTypeComplexities.taskType',
+            'taskTypeComplexities.complexityLevel',
+            'complexityLevels.taskTypeComplexities'
+        ]);
+        
         return view('task-groups.show', compact('taskGroup'));
     }
 
@@ -85,9 +99,9 @@ class TaskGroupController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'is_active' => 'boolean',
-            'departments' => 'required|array',
+            'departments' => 'nullable|array',
             'departments.*' => 'exists:departments,id',
-            'users' => 'required|array',
+            'users' => 'nullable|array',
             'users.*' => 'exists:users,id'
         ]);
 
@@ -98,19 +112,23 @@ class TaskGroupController extends Controller
             'updated_by' => Auth::id(),
         ]);
 
-        // Sync departments
-        $taskGroup->departments()->sync($validated['departments']);
+        // Sync departments if provided
+        if (isset($validated['departments'])) {
+            $taskGroup->departments()->sync($validated['departments']);
+        }
 
-        // Sync users while preserving existing permissions
-        $existingPermissions = $taskGroup->users()->pluck('task_group_access.can_edit', 'users.id');
-        $userPermissions = collect($validated['users'])->mapWithKeys(function ($userId) use ($existingPermissions) {
-            return [$userId => [
-                'can_view' => true,
-                'can_edit' => $existingPermissions[$userId] ?? false,
-                'granted_by' => Auth::id()
-            ]];
-        });
-        $taskGroup->users()->sync($userPermissions);
+        // Sync users if provided
+        if (isset($validated['users'])) {
+            $existingPermissions = $taskGroup->users()->pluck('task_group_access.can_edit', 'users.id');
+            $userPermissions = collect($validated['users'])->mapWithKeys(function ($userId) use ($existingPermissions) {
+                return [$userId => [
+                    'can_view' => true,
+                    'can_edit' => false,
+                    'granted_by' => Auth::id()
+                ]];
+            });
+            $taskGroup->users()->sync($userPermissions);
+        }
 
         return redirect()->route('task-groups.show', $taskGroup)
             ->with('success', 'Task group updated successfully.');

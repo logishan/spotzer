@@ -45,31 +45,47 @@
                         <table id="task-type-complexities-table" class="table table-bordered text-nowrap border-bottom">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0">Task Group</th>
                                     <th class="border-bottom-0">Task Type</th>
                                     <th class="border-bottom-0">Complexity Level</th>
+                                    <th class="border-bottom-0">Description</th>
                                     <th class="border-bottom-0">Allocated Minutes</th>
-                                    <th class="border-bottom-0">Effective From</th>
-                                    <th class="border-bottom-0">Effective To</th>
+                                    <th class="border-bottom-0">Status</th>
                                     <th class="border-bottom-0">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($taskTypeComplexities as $complexity)
+                                @foreach($complexities as $complexity)
                                     <tr>
+                                        <td>
+                                            @if($complexity->taskGroup)
+                                                <a href="{{ route('task-groups.show', $complexity->taskGroup) }}">
+                                                    {{ $complexity->taskGroup->name }}
+                                                </a>
+                                            @else
+                                                <span class="text-muted">No group assigned</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $complexity->taskType->name }}</td>
                                         <td>{{ $complexity->complexityLevel->name }}</td>
+                                        <td>{{ $complexity->description ?? 'No description' }}</td>
                                         <td>{{ $complexity->allocated_minutes }}</td>
-                                        <td>{{ $complexity->effective_from->format('Y-m-d') }}</td>
-                                        <td>{{ $complexity->effective_to ? $complexity->effective_to->format('Y-m-d') : 'Ongoing' }}</td>
+                                        <td>
+                                            @if($complexity->is_active)
+                                                <span class="badge bg-success">Active</span>
+                                            @else
+                                                <span class="badge bg-danger">Inactive</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ route('task-type-complexities.edit', $complexity) }}" class="btn btn-primary btn-sm">
-                                                <i class="fe fe-edit-2"></i>
+                                                <i class="fe fe-edit-2"></i> Edit
                                             </a>
                                             <form action="{{ route('task-type-complexities.destroy', $complexity) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this task type complexity?')">
-                                                    <i class="fe fe-trash-2"></i>
+                                                    <i class="fe fe-trash-2"></i> Delete
                                                 </button>
                                             </form>
                                         </td>
@@ -77,6 +93,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    
+                    <div class="mt-4">
+                        {{ $complexities->links() }}
                     </div>
                 </div>
             </div>

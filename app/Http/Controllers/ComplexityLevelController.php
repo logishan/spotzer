@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\ComplexityLevel;
+use App\Models\TaskGroup;
 use Illuminate\Http\Request;
 
 class ComplexityLevelController extends Controller
 {
     public function index()
     {
-        $complexityLevels = ComplexityLevel::withCount('taskTypeComplexities')
+        $complexityLevels = ComplexityLevel::with('taskGroup')
+            ->withCount('taskTypeComplexities')
             ->orderBy('name')
             ->get();
         
@@ -18,14 +20,15 @@ class ComplexityLevelController extends Controller
 
     public function create()
     {
-        return view('task-complexity.create');
+        $taskGroups = TaskGroup::where('is_active', true)->orderBy('name')->get();
+        return view('task-complexity.create', compact('taskGroups'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:complexity_levels,name',
-            'description' => 'nullable|string'
+            'task_group_id' => 'required|exists:task_groups,id'
         ]);
 
         ComplexityLevel::create($validated);
@@ -34,32 +37,33 @@ class ComplexityLevelController extends Controller
             ->with('success', 'Complexity level created successfully.');
     }
 
-    public function edit(ComplexityLevel $complexityLevel)
+    public function edit(ComplexityLevel $task_complexity)
     {
-        return view('task-complexity.edit', compact('complexityLevel'));
+        $taskGroups = TaskGroup::where('is_active', true)->orderBy('name')->get();
+        return view('task-complexity.edit', compact('task_complexity', 'taskGroups'));
     }
 
-    public function update(Request $request, ComplexityLevel $complexityLevel)
+    public function update(Request $request, ComplexityLevel $task_complexity)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:complexity_levels,name,' . $complexityLevel->id,
-            'description' => 'nullable|string'
+            'name' => 'required|string|max:255|unique:complexity_levels,name,' . $task_complexity->id,
+            'task_group_id' => 'required|exists:task_groups,id'
         ]);
 
-        $complexityLevel->update($validated);
+        $task_complexity->update($validated);
 
         return redirect()->route('task-complexity.index')
             ->with('success', 'Complexity level updated successfully.');
     }
 
-    public function destroy(ComplexityLevel $complexityLevel)
+    public function destroy(ComplexityLevel $task_complexity)
     {
-        if ($complexityLevel->taskTypeComplexities()->exists()) {
+        if ($task_complexity->taskTypeComplexities()->exists()) {
             return redirect()->route('task-complexity.index')
                 ->with('error', 'Cannot delete complexity level that is in use.');
         }
 
-        $complexityLevel->delete();
+        $task_complexity->delete();
 
         return redirect()->route('task-complexity.index')
             ->with('success', 'Complexity level deleted successfully.');
