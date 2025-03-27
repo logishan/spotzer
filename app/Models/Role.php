@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Role extends Model
 {
@@ -19,6 +20,21 @@ class Role extends Model
     protected $casts = [
         'level' => 'integer'
     ];
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($role) {
+            // Generate slug from name if not provided
+            if (!$role->slug) {
+                $role->slug = Str::slug($role->name);
+            }
+        });
+    }
 
     /**
      * Get the users that belong to this role

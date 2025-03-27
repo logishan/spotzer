@@ -51,6 +51,9 @@ class UserManagementController extends Controller
         $user->status = $validated['status'];
         $user->department_id = $validated['department_id'];
         
+        // Set the primary role_id from the first selected role
+        $user->role_id = $validated['role_ids'][0];
+        
         if (!empty($validated['shift_schedule_id'])) {
             $user->shift_schedule_id = $validated['shift_schedule_id'];
         }
@@ -102,6 +105,9 @@ class UserManagementController extends Controller
         $user->status = $validated['status'];
         $user->department_id = $validated['department_id'];
         $user->shift_schedule_id = $validated['shift_schedule_id'] ?? null;
+        
+        // Update the primary role_id from the first selected role
+        $user->role_id = $validated['role_ids'][0];
         
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
