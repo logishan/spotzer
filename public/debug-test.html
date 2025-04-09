@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Helper Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .container {
+            margin: 30px 0;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .result-area {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .test-group {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Helper Test Page</h1>
+    
+    <div class="container">
+        <p>This standalone page tests the <code>debug-helper.js</code> script directly, without Laravel or any framework.</p>
+        <p>Check your browser's console for log messages, and see the visual debug panel if console logging is not working.</p>
+        
+        <div class="test-group">
+            <h3>Test Console Logging</h3>
+            <p>Click buttons to test different logging methods:</p>
+            <button onclick="DebugHelper.log('This is a regular log message')">Log</button>
+            <button onclick="DebugHelper.info('This is an info message', {detail: 'with an object'})">Info</button>
+            <button onclick="DebugHelper.warn('This is a warning message')">Warn</button>
+            <button onclick="DebugHelper.error('This is an error message')">Error</button>
+            <button onclick="DebugHelper.debug('This is a debug message')">Debug</button>
+        </div>
+        
+        <div class="test-group">
+            <h3>Test Console Availability</h3>
+            <p>Force enable/disable the console to test fallback mechanism:</p>
+            <button onclick="DebugHelper._consoleAvailable = false; DebugHelper.log('Console disabled, fallback active')">Disable Console</button>
+            <button onclick="DebugHelper._consoleAvailable = true; DebugHelper.log('Console enabled')">Enable Console</button>
+            <button onclick="DebugHelper.checkConsole(); DebugHelper.log('Console checked')">Check Console</button>
+        </div>
+        
+        <div class="test-group">
+            <h3>Test Debug Panel</h3>
+            <p>Control the debug panel:</p>
+            <button onclick="DebugHelper.showPanel()">Show Panel</button>
+            <button onclick="DebugHelper.hidePanel()">Hide Panel</button>
+            <button onclick="DebugHelper.clearLogs()">Clear Logs</button>
+        </div>
+        
+        <div class="test-group">
+            <h3>Test Manual Panel Toggle</h3>
+            <p>Try the keyboard shortcut (Ctrl+Shift+D) or click: <button onclick="DebugHelper.togglePanel()">Toggle Panel</button></p>
+        </div>
+        
+        <div class="test-group">
+            <h3>Environment Info</h3>
+            <div id="environment-info"></div>
+            <button onclick="checkEnvironment()">Check Environment</button>
+        </div>
+    </div>
+    
+    <script>
+        // Function to check environment
+        function checkEnvironment() {
+            const info = {
+                userAgent: navigator.userAgent,
+                consoleExists: typeof console !== 'undefined',
+                consoleLogExists: typeof console !== 'undefined' && typeof console.log === 'function',
+                windowExists: typeof window !== 'undefined',
+                documentExists: typeof document !== 'undefined',
+                debugHelperLoaded: typeof DebugHelper !== 'undefined'
+            };
+            
+            // Display in the environment info area
+            const infoArea = document.getElementById('environment-info');
+            infoArea.innerHTML = '<div class="result-area">' + 
+                Object.entries(info).map(([key, value]) => `${key}: ${value}`).join('\n') +
+                '</div>';
+                
+            // Also log to our debug helper
+            if (typeof DebugHelper !== 'undefined') {
+                DebugHelper.info('Environment Check', info);
+            } else {
+                console.warn('DebugHelper not loaded yet');
+            }
+        }
+        
+        // Check if script is loaded after 1 second
+        setTimeout(function() {
+            if (typeof DebugHelper === 'undefined') {
+                const errorMsg = document.createElement('div');
+                errorMsg.style.color = '#e74c3c';
+                errorMsg.style.padding = '10px';
+                errorMsg.style.backgroundColor = '#fef0f0';
+                errorMsg.style.marginTop = '20px';
+                errorMsg.style.border = '1px solid #e74c3c';
+                errorMsg.innerHTML = '<strong>Error:</strong> DebugHelper is not loaded! Make sure <code>/js/debug-helper.js</code> exists and is accessible.';
+                document.querySelector('.container').appendChild(errorMsg);
+                
+                console.error('DebugHelper is not loaded. Check that the script exists at /js/debug-helper.js');
+            } else {
+                const successMsg = document.createElement('div');
+                successMsg.style.color = '#27ae60';
+                successMsg.style.padding = '10px';
+                successMsg.style.backgroundColor = '#f0fef0';
+                successMsg.style.marginTop = '20px';
+                successMsg.style.border = '1px solid #27ae60';
+                successMsg.innerHTML = '<strong>Success:</strong> DebugHelper is loaded and ready to use!';
+                document.querySelector('.container').appendChild(successMsg);
+                
+                // Initialize with some test logs
+                DebugHelper.log('Debug Helper loaded successfully');
+                DebugHelper.info('Test page initialized');
+            }
+        }, 1000);
+    </script>
+    
+    <!-- Load the Debug Helper script -->
+    <script src="/js/debug-helper.js"></script>
+</body>
+</html> 

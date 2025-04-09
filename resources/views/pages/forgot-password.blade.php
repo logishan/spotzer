@@ -12,7 +12,7 @@
                     <div class="">
                         <div class="col col-login mx-auto mt-7">
                             <div class="text-center">
-                                <a href="{{url('index')}}">
+                                <a href="{{url('/')}}">
                                     <img src="{{asset('build/assets/images/brand/logo.png')}}" class="header-brand-img" alt="logo">
                                 </a>
                             </div>
@@ -32,7 +32,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="form-footer mt-4">
-                                                    <a href="{{url('index')}}" class="btn btn-primary btn-block">Submit</a>
+                                                    <a href="{{url('/')}}" class="btn btn-primary btn-block">Submit</a>
                                                 </div>
                                                 <div class="text-center text-muted mt-3 ">
                                                 Forget it, <a href="{{url('login')}}">send me back</a> to the sign in screen.

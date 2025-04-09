@@ -22,6 +22,16 @@ class Task extends Model
         'status' => 'string',
         'priority' => 'string',
     ];
+    
+    /**
+     * The attributes that should have default values.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => 'todo',
+        'priority' => 'medium',
+    ];
 
     /**
      * Get the task groups that this task belongs to.

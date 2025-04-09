@@ -31,7 +31,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             Log::info('Login successful', ['user_id' => $user->id]);
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/');
         }
 
         Log::info('Login failed - password mismatch', ['user_id' => $user->id]);

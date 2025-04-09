@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console Log Debugger</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        button {
+            padding: 8px 12px;
+            background: #4b7bec;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #3867d6;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>Console Log Debugger</h1>
+    <p>This page tests different console logging methods to help diagnose issues with console logs not appearing.</p>
+    
+    <div class="card">
+        <h2>Test Console Logs</h2>
+        <p>Click the buttons below to test different console logging methods. Check your browser's developer tools console to see the results.</p>
+        
+        <button onclick="testConsoleLog()">Test console.log</button>
+        <button onclick="testConsoleWarn()">Test console.warn</button>
+        <button onclick="testConsoleError()">Test console.error</button>
+        <button onclick="testConsoleInfo()">Test console.info</button>
+        <button onclick="testConsoleDebug()">Test console.debug</button>
+        <button onclick="testConsoleTable()">Test console.table</button>
+        <button onclick="testConsoleGroup()">Test console.group</button>
+        <button onclick="testAlternativeMethods()">Test Alternative Methods</button>
+        
+        <div class="status" id="status">Result will appear here</div>
+    </div>
+    
+    <div class="card">
+        <h2>Console Log Status</h2>
+        <p>This section checks if console logging is generally available in your browser.</p>
+        <div id="consoleStatus"></div>
+        <button onclick="checkConsoleStatus()">Check Console Status</button>
+    </div>
+    
+    <div class="card">
+        <h2>Filtered Console Test</h2>
+        <p>Sometimes console logs are filtered out by browser settings or by error levels. This test checks that.</p>
+        <button onclick="testFilteredLogs()">Test All Log Levels</button>
+    </div>
+    
+    <script>
+        // Immediate log when page loads
+        console.log('Page loaded at ' + new Date().toISOString());
+        
+        // Function to update status
+        function updateStatus(message, type) {
+            const status = document.getElementById('status');
+            status.innerHTML = message;
+            status.className = 'status ' + type;
+        }
+        
+        // Test console.log
+        function testConsoleLog() {
+            try {
+                console.log('Standard console.log test at ' + new Date().toISOString());
+                updateStatus('console.log test executed. Check developer console.', 'success');
+            } catch (error) {
+                updateStatus('Error executing console.log: ' + error.message, 'error');
+            }
+        }
+        
+        // Test console.warn
+        function testConsoleWarn() {
+            try {
+                console.warn('Warning log test at ' + new Date().toISOString());
+                updateStatus('console.warn test executed. Check developer console.', 'warning');
+            } catch (error) {
+                updateStatus('Error executing console.warn: ' + error.message, 'error');
+            }
+        }
+        
+        // Test console.error
+        function testConsoleError() {
+            try {
+                console.error('Error log test at ' + new Date().toISOString());
+                updateStatus('console.error test executed. Check developer console.', 'error');
+            } catch (error) {
+                updateStatus('Error executing console.error: ' + error.message, 'error');
+            }
+        }
+        
+        // Test console.info
+        function testConsoleInfo() {
+            try {
+                console.info('Info log test at ' + new Date().toISOString());
+                updateStatus('console.info test executed. Check developer console.', 'info');
+            } catch (error) {
+                updateStatus('Error executing console.info: ' + error.message, 'error');
+            }
+        }
+        
+        // Test console.debug
+        function testConsoleDebug() {
+            try {
+                console.debug('Debug log test at ' + new Date().toISOString());
+                updateStatus('console.debug test executed. Check developer console (note: may be filtered out by default).', 'info');
+            } catch (error) {
+                updateStatus('Error executing console.debug: ' + error.message, 'error');
+            }
+        }
+        
+        // Test console.table
+        function testConsoleTable() {
+            try {
+                console.table([
+                    { name: 'First Item', value: 100 },
+                    { name: 'Second Item', value: 200 },
+                    { name: 'Third Item', value: 300 }
+                ]);
+                updateStatus('console.table test executed. Check developer console.', 'success');
+            } catch (error) {
+                updateStatus('Error executing console.table: ' + error.message, 'error');
+            }
+        }
+        
+        // Test console.group
+        function testConsoleGroup() {
+            try {
+                console.group('Test Group');
+                console.log('Grouped log 1');
+                console.log('Grouped log 2');
+                console.groupEnd();
+                updateStatus('console.group test executed. Check developer console.', 'success');
+            } catch (error) {
+                updateStatus('Error executing console.group: ' + error.message, 'error');
+            }
+        }
+        
+        // Test alternative logging methods
+        function testAlternativeMethods() {
+            try {
+                // Use window.console explicitly
+                window.console.log('Window console log test');
+                
+                // Try with setTimeout
+                setTimeout(function() {
+                    console.log('Delayed console log via setTimeout');
+                }, 100);
+                
+                // Create a custom event
+                const event = new CustomEvent('customLog', { detail: 'Custom log event test' });
+                document.dispatchEvent(event);
+                
+                updateStatus('Alternative methods test executed. Check developer console.', 'info');
+            } catch (error) {
+                updateStatus('Error executing alternative methods: ' + error.message, 'error');
+            }
+        }
+        
+        // Test all log levels
+        function testFilteredLogs() {
+            console.log('Verbose log test');
+            console.debug('Debug log test');
+            console.info('Info log test');
+            console.warn('Warning log test');
+            console.error('Error log test');
+            updateStatus('All log levels tested. Check which ones appear in your console.', 'info');
+        }
+        
+        // Check console availability
+        function checkConsoleStatus() {
+            const statusElement = document.getElementById('consoleStatus');
+            let status = '<ul>';
+            
+            // Check if console exists
+            if (typeof console !== 'undefined') {
+                status += '<li class="success">console object exists</li>';
+                
+                // Check console methods
+                const methods = ['log', 'warn', 'error', 'info', 'debug', 'table', 'group'];
+                methods.forEach(method => {
+                    if (typeof console[method] === 'function') {
+                        status += `<li class="success">console.${method} is available</li>`;
+                    } else {
+                        status += `<li class="error">console.${method} is NOT available</li>`;
+                    }
+                });
+                
+                // Try to actually use it
+                try {
+                    console.log('Console check successful at ' + new Date().toISOString());
+                    status += '<li class="success">Successfully executed console.log</li>';
+                } catch (e) {
+                    status += `<li class="error">Failed to execute console.log: ${e.message}</li>`;
+                }
+            } else {
+                status += '<li class="error">console object does NOT exist!</li>';
+            }
+            
+            // Check if devtools is open
+            let devtoolsOpen = false;
+            const div = document.createElement('div');
+            Object.defineProperty(div, 'id', {
+                get: function() {
+                    devtoolsOpen = true;
+                    return 'id';
+                }
+            });
+            console.log(div);
+            status += devtoolsOpen ? 
+                '<li class="success">Developer tools appear to be open</li>' : 
+                '<li class="warning">Developer tools may not be open</li>';
+            
+            status += '</ul>';
+            statusElement.innerHTML = status;
+        }
+        
+        // Listen for custom log events
+        document.addEventListener('customLog', function(e) {
+            console.log('Custom event log received: ' + e.detail);
+        });
+        
+        // Additional console.log when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded fired at ' + new Date().toISOString());
+        });
+        
+        // Additional console.log when window is fully loaded
+        window.addEventListener('load', function() {
+            console.log('Window load event fired at ' + new Date().toISOString());
+        });
+    </script>
+</body>
+</html> 

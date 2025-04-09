@@ -5,7 +5,7 @@
         <h1 class="page-title">Edit Complexity Level</h1>
         <div>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('task-complexity.index') }}">Task Complexity</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edit</li>
             </ol>

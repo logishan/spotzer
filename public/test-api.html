@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #results {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,.3);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Type Complexities API Test Tool</h1>
+    
+    <div class="container">
+        <h2>Test Parameters</h2>
+        <div class="form-group">
+            <label for="taskTypeId">Task Type ID:</label>
+            <input type="number" id="taskTypeId" placeholder="Enter task type ID">
+        </div>
+        <div class="form-group">
+            <label for="taskGroupId">Task Group ID:</label>
+            <input type="number" id="taskGroupId" placeholder="Enter task group ID">
+        </div>
+        <button id="testButton" onclick="testApi()">Test API</button>
+        <span id="loading" class="loading" style="display: none;"></span>
+    </div>
+    
+    <div class="container">
+        <h2>Results</h2>
+        <div id="results">No results yet. Click "Test API" button above.</div>
+    </div>
+    
+    <script>
+        function testApi() {
+            const taskTypeId = document.getElementById('taskTypeId').value;
+            const taskGroupId = document.getElementById('taskGroupId').value;
+            const resultsDiv = document.getElementById('results');
+            const loadingIndicator = document.getElementById('loading');
+            const testButton = document.getElementById('testButton');
+            
+            if (!taskTypeId || !taskGroupId) {
+                resultsDiv.innerHTML = 'Error: Please enter both Task Type ID and Task Group ID';
+                return;
+            }
+            
+            // Show loading
+            loadingIndicator.style.display = 'inline-block';
+            testButton.disabled = true;
+            resultsDiv.innerHTML = 'Loading...';
+            
+            // Add timestamp to prevent caching
+            const timestamp = new Date().getTime();
+            const apiUrl = `/api/task-type-complexities?task_type_id=${taskTypeId}&task_group_id=${taskGroupId}&_=${timestamp}`;
+            
+            // Log the request details
+            let logText = `Request URL: ${apiUrl}\n`;
+            logText += `Time: ${new Date().toISOString()}\n\n`;
+            
+            fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                // Log response details
+                logText += `Response Status: ${response.status} ${response.statusText}\n`;
+                
+                // Log headers
+                logText += 'Response Headers:\n';
+                response.headers.forEach((value, name) => {
+                    logText += `  ${name}: ${value}\n`;
+                });
+                logText += '\n';
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
+                }
+                
+                return response.json();
+            })
+            .then(data => {
+                // Log the result
+                logText += 'Response Body:\n';
+                logText += JSON.stringify(data, null, 2);
+                
+                // Format the complexity options if they exist
+                if (data.success && data.complexities && data.complexities.length > 0) {
+                    logText += '\n\nComplexity Options:\n';
+                    data.complexities.forEach((option, index) => {
+                        logText += `${index + 1}. ${option.complexity_name} (${option.allocated_minutes} min)`;
+                        if (option.is_default) {
+                            logText += ' [Default]';
+                        }
+                        logText += ` - ID: ${option.id}\n`;
+                    });
+                }
+                
+                resultsDiv.innerHTML = logText;
+            })
+            .catch(error => {
+                logText += `Error: ${error.message}`;
+                resultsDiv.innerHTML = logText;
+            })
+            .finally(() => {
+                // Hide loading
+                loadingIndicator.style.display = 'none';
+                testButton.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html> 

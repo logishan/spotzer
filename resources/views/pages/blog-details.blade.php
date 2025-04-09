@@ -143,7 +143,7 @@
                                             <div class="card-title">Add a Comments</div>
                                         </div>
                                         <div class="card-body">
-                                            <form class="form-horizontal  m-t-20" action="{{url('index')}}">
+                                            <form class="form-horizontal  m-t-20" action="{{url('/')}}">
                                                 <div class="form-group">
                                                     <div class="col-xs-12">
                                                         <input class="form-control" type="text" required="" placeholder="Username*">

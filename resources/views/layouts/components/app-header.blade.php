@@ -1,16 +1,15 @@
-
 				<div class="app-header header sticky">
 					<div class="container-fluid main-container">
 						<div class="d-flex align-items-center">
 							<a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0);"></a>
 							<!-- sidebar-toggle-->
-							<a class="logo-horizontal " href="{{url('index')}}">
-								<img src="{{asset('build/assets/images/brand/logo.png')}}" class="header-brand-img desktop-logo" alt="logo">
+							<a class="logo-horizontal " href="{{url('/')}}">
+								<img src="{{asset('build/assets/images/brand/spotzer.png')}}" class="header-brand-img desktop-logo" alt="logo">
 								<img src="{{asset('build/assets/images/brand/logo-3.png')}}" class="header-brand-img light-logo1"
 									alt="logo">
 							</a>
 							<!-- LOGO -->
-							<div class="main-header-center ms-3 d-none d-lg-block">
+							<div class="main-header-center ms-3 d-none d-lg-block" style="display: none !important;">
 								<input type="text" class="form-control" placeholder="Search for results..." autocomplete="off">
 								<button class="btn px-0 pt-2"><i class="fe fe-search" aria-hidden="true"></i></button>
 							</div>
@@ -51,7 +50,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="d-flex country">
+											<div class="d-flex country" style="display: none !important;">
 												<a class="nav-link icon text-center" data-bs-target="#country-selector"
 													data-bs-toggle="modal">
 													<img src="{{asset('build/assets/images/flags/10.jpg')}}" alt="us_flag">
@@ -75,7 +74,7 @@
 												</a>
 											</div>
 											<!-- Theme-Layout -->
-											<div class="dropdown  d-flex shopping-cart">
+											<div class="dropdown  d-flex shopping-cart" style="display: none !important;">
 												<a class="nav-link icon text-center" data-bs-toggle="dropdown">
 													<i class="fe fe-shopping-cart"></i><span class="badge bg-secondary header-badge">4</span>
 												</a>
@@ -264,7 +263,7 @@
 												</div>
 											</div>
 											<!-- NOTIFICATIONS -->
-											<!-- Adding Clock In button here -->
+											<!-- CLOCK IN BUTTON -->
 											<div class="dropdown d-none d-md-flex me-3 my-auto">
 												<form action="{{ route('attendances.check-in') }}" method="POST">
 													@csrf
@@ -273,108 +272,6 @@
 													</button>
 												</form>
 											</div>
-											<!-- CLOCK IN BUTTON -->
-											<div class="dropdown  d-flex message">
-												<a class="nav-link icon text-center" data-bs-toggle="dropdown">
-													<i class="fe fe-message-square"></i><span class="pulse-danger"></span>
-												</a>
-												<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-													<div class="drop-heading border-bottom">
-														<div class="d-flex">
-															<h6 class="mt-1 mb-0 fs-16 fw-semibold text-dark">You have 5
-																Messages</h6>
-															<div class="ms-auto">
-																<a href="javascript:void(0);" class="text-muted p-0 fs-12">make all unread</a>
-															</div>
-														</div>
-													</div>
-													<div class="message-menu message-menu-scroll">
-														<a class="dropdown-item d-flex" href="{{url('chat')}}">
-															<span
-																class="avatar avatar-md brround me-3 align-self-center cover-image"
-																data-bs-image-src="{{asset('build/assets/images/users/1.jpg')}}"></span>
-															<div class="wd-90p">
-																<div class="d-flex">
-																	<h5 class="mb-1">Peter Theil</h5>
-																	<small class="text-muted ms-auto text-end">
-																		6:45 am
-																	</small>
-																</div>
-																<span>Commented on file Guest list....</span>
-															</div>
-														</a>
-														<a class="dropdown-item d-flex" href="{{url('chat')}}">
-															<span
-																class="avatar avatar-md brround me-3 align-self-center cover-image"
-																data-bs-image-src="{{asset('build/assets/images/users/15.jpg')}}"></span>
-															<div class="wd-90p">
-																<div class="d-flex">
-																	<h5 class="mb-1">Abagael Luth</h5>
-																	<small class="text-muted ms-auto text-end">
-																		10:35 am
-																	</small>
-																</div>
-																<span>New Meetup Started......</span>
-															</div>
-														</a>
-														<a class="dropdown-item d-flex" href="{{url('chat')}}">
-															<span
-																class="avatar avatar-md brround me-3 align-self-center cover-image"
-																data-bs-image-src="{{asset('build/assets/images/users/12.jpg')}}"></span>
-															<div class="wd-90p">
-																<div class="d-flex">
-																	<h5 class="mb-1">Brizid Dawson</h5>
-																	<small class="text-muted ms-auto text-end">
-																		2:17 pm
-																	</small>
-																</div>
-																<span>Brizid is in the Warehouse...</span>
-															</div>
-														</a>
-														<a class="dropdown-item d-flex" href="{{url('chat')}}">
-															<span
-																class="avatar avatar-md brround me-3 align-self-center cover-image"
-																data-bs-image-src="{{asset('build/assets/images/users/4.jpg')}}"></span>
-															<div class="wd-90p">
-																<div class="d-flex">
-																	<h5 class="mb-1">Shannon Shaw</h5>
-																	<small class="text-muted ms-auto text-end">
-																		7:55 pm
-																	</small>
-																</div>
-																<span>New Product Realease......</span>
-															</div>
-														</a>
-														<a class="dropdown-item d-flex" href="{{url('chat')}}">
-															<span
-																class="avatar avatar-md brround me-3 align-self-center cover-image"
-																data-bs-image-src="{{asset('build/assets/images/users/3.jpg')}}"></span>
-															<div class="wd-90p">
-																<div class="d-flex">
-																	<h5 class="mb-1">Cherry Blossom</h5>
-																	<small class="text-muted ms-auto text-end">
-																		7:55 pm
-																	</small>
-																</div>
-																<span>You have appointment on......</span>
-															</div>
-														</a>
-
-													</div>
-													<div class="dropdown-divider m-0"></div>
-														<div class="dropdown-footer p-4">
-															<a class="btn btn-primary btn-pill w-sm btn-sm py-2 btn-block fs-14" href="{{url('chat')}}">See All Messages</a>
-													</div>
-												</div>
-											</div>
-											<!-- MESSAGE-BOX -->
-											<div class="dropdown d-flex header-settings">
-												<a href="javascript:void(0);" class="nav-link icon"
-													data-bs-toggle="sidebar-right" data-target=".sidebar-right">
-													<i class="fe fe-align-right"></i>
-												</a>
-											</div>
-											<!-- SIDE-MENU -->
 											<div class="dropdown d-flex profile-1">
 												<a href="javascript:void(0);" data-bs-toggle="dropdown" class="nav-link leading-none d-flex">
 													<img src="{{asset('build/assets/images/users/11.jpg')}}" alt="profile-user"
@@ -383,24 +280,22 @@
 												<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 													<div class="drop-heading">
 														<div class="text-center">
-															<h5 class="text-dark mb-0 fs-14 fw-semibold">Percy Kewshun</h5>
-															<small class="text-muted">Senior Admin</small>
+															<h5 class="text-dark mb-0 fs-14 fw-semibold">{{ Auth::user()->name ?? 'User' }}</h5>
+															<small class="text-muted">{{ Auth::user()->role ?? 'Staff' }}</small>
 														</div>
 													</div>
 													<div class="dropdown-divider m-0"></div>
-													<a class="dropdown-item" href="{{url('profile')}}">
+													<a class="dropdown-item disabled" href="javascript:void(0);">
 														<i class="dropdown-icon fe fe-user"></i> Profile
 													</a>
-													<a class="dropdown-item" href="{{url('email')}}">
-														<i class="dropdown-icon fe fe-mail"></i> Inbox
-														<span class="badge bg-danger rounded-pill float-end">5</span>
-													</a>
-													<a class="dropdown-item" href="{{url('lockscreen')}}">
-														<i class="dropdown-icon fe fe-lock"></i> Lockscreen
-													</a>
-													<a class="dropdown-item" href="{{url('login')}}">
+													<a class="dropdown-item" href="{{ route('logout') }}" 
+														onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 														<i class="dropdown-icon fe fe-alert-circle"></i> Sign out
 													</a>
+													<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+														@csrf
+														<input type="hidden" name="redirect" value="{{ url('login') }}">
+													</form>
 												</div>
 											</div>
 										</div>

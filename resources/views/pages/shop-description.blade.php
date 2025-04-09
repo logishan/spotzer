@@ -353,7 +353,7 @@
                                             <div class="card-title">Add Review</div>
                                         </div>
                                         <div class="card-body">
-                                            <form class="form-horizontal  m-t-20" action="{{url('index')}}">
+                                            <form class="form-horizontal  m-t-20" action="{{url('/')}}">
                                                 <div class="row">
                                                     <div class="col-xs-12 col-lg-6">
                                                         <div class="form-group">

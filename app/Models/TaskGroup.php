@@ -66,4 +66,9 @@ class TaskGroup extends Model
     {
         return $this->hasMany(ComplexityLevel::class);
     }
+
+    public function formFields()
+    {
+        return $this->hasMany(FormField::class)->orderBy('display_order');
+    }
 } 

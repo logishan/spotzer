@@ -5,7 +5,7 @@
         <h1 class="page-title">Create Department</h1>
         <div>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('departments.index') }}">Departments</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Create</li>
             </ol>

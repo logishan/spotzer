@@ -18,11 +18,13 @@ class TaskTypeComplexity extends Model
         'created_by',
         'updated_by',
         'task_group_id',
-        'description'
+        'description',
+        'is_default'
     ];
 
     protected $casts = [
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'is_default' => 'boolean'
     ];
 
     /**

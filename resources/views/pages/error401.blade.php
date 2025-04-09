@@ -18,7 +18,7 @@
 							Sorry, an error has occured, Requested page not found!
 						</h5>
 						<div class="text-center">
-							<a class="btn  btn-secondary mt-5 mb-5" href="{{url('index')}}"><i class="fa fa-long-arrow-left"></i> Back to Home </a>
+							<a class="btn  btn-secondary mt-5 mb-5" href="{{url('/')}}"><i class="fa fa-long-arrow-left"></i> Back to Home </a>
 						</div>
                     </div>
 				</div>

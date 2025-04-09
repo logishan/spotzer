@@ -10,7 +10,7 @@
                     <!-- CONTAINER OPEN -->
                     <div class="col col-login mx-auto mt-7">
                         <div class="text-center">
-                            <a href="{{url('index')}}">
+                            <a href="{{url('/')}}">
                                 <img src="{{asset('build/assets/images/brand/logo.png')}}" class="header-brand-img" alt="logo">
                             </a>
                         </div>

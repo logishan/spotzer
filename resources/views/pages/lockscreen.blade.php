@@ -12,7 +12,7 @@
             <div class="">
 				<div class="col col-login mx-auto mt-7">
 					<div class="text-center">
-						<a href="{{url('index')}}">
+						<a href="{{url('/')}}">
 							<img src="{{asset('build/assets/images/brand/logo.png')}}" class="header-brand-img" alt="logo">
 						</a>
 					</div>
@@ -33,7 +33,7 @@
 								</span>
 							</div>
 							<div class="container-login100-form-btn pt-2">
-								<a href="{{url('index')}}" class="login100-form-btn btn-primary">
+								<a href="{{url('/')}}" class="login100-form-btn btn-primary">
 									Unlock
 								</a>
 							</div>

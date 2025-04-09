@@ -5,7 +5,7 @@
         <h1 class="page-title">Shift Schedule Details</h1>
         <div>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('shift-schedules.index') }}">Shift Schedules</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Shift Schedule Details</li>
             </ol>

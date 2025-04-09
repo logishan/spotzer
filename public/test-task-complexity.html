@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Complexity Debugger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .console-log {
+            font-family: monospace;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .log-info { color: #0d6efd; }
+        .log-warn { color: #fd7e14; }
+        .log-error { color: #dc3545; }
+        .log-success { color: #198754; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1>Task Complexity API Debugger</h1>
+                <p class="lead">Use this tool to test the task complexity API directly</p>
+                <div class="alert alert-info">
+                    This is a standalone debugging tool that bypasses your application's JavaScript to directly test the API endpoint.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>API Test</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="testForm">
+                            <div class="mb-3">
+                                <label for="taskTypeId" class="form-label">Task Type ID</label>
+                                <input type="number" class="form-control" id="taskTypeId" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="taskGroupId" class="form-label">Task Group ID</label>
+                                <input type="number" class="form-control" id="taskGroupId" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Test API</button>
+                            <button type="button" id="clearConsole" class="btn btn-secondary">Clear Console</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Results</h5>
+                    </div>
+                    <div class="card-body">
+                        <select id="complexitySelect" class="form-select mb-3" disabled>
+                            <option value="">-- API results will appear here --</option>
+                        </select>
+                        <div id="loadingSpinner" class="d-none text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="apiStatus" class="alert alert-secondary">
+                            No API call made yet
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>Console Output</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="consoleOutput" class="console-log p-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const consoleOutput = document.getElementById('consoleOutput');
+            const testForm = document.getElementById('testForm');
+            const complexitySelect = document.getElementById('complexitySelect');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const apiStatus = document.getElementById('apiStatus');
+            const clearConsoleBtn = document.getElementById('clearConsole');
+            
+            // Custom console logger
+            function log(message, type = 'info') {
+                const logEntry = document.createElement('div');
+                logEntry.classList.add(`log-${type}`);
+                
+                // Format objects or arrays
+                if (typeof message === 'object') {
+                    message = JSON.stringify(message, null, 2);
+                }
+                
+                logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+                consoleOutput.appendChild(logEntry);
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            }
+            
+            // Clear console
+            clearConsoleBtn.addEventListener('click', function() {
+                consoleOutput.innerHTML = '';
+                log('Console cleared', 'info');
+            });
+            
+            // Form submission
+            testForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const taskTypeId = document.getElementById('taskTypeId').value;
+                const taskGroupId = document.getElementById('taskGroupId').value;
+                
+                if (!taskTypeId || !taskGroupId) {
+                    log('Please provide both Task Type ID and Task Group ID', 'error');
+                    return;
+                }
+                
+                log(`Testing API with Task Type ID: ${taskTypeId}, Task Group ID: ${taskGroupId}`, 'info');
+                testApiCall(taskTypeId, taskGroupId);
+            });
+            
+            // API test function
+            function testApiCall(taskTypeId, taskGroupId) {
+                // Reset UI
+                complexitySelect.innerHTML = '<option value="">Loading...</option>';
+                complexitySelect.disabled = true;
+                loadingSpinner.classList.remove('d-none');
+                apiStatus.className = 'alert alert-secondary';
+                apiStatus.textContent = 'API call in progress...';
+                
+                // Build URL with cache buster
+                const timestamp = new Date().getTime();
+                const apiUrl = `/api/task-type-complexities?task_type_id=${taskTypeId}&task_group_id=${taskGroupId}&_=${timestamp}`;
+                
+                log(`Calling API: ${apiUrl}`, 'info');
+                
+                // Make the fetch request
+                fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    log(`API response status: ${response.status}`, response.ok ? 'success' : 'error');
+                    
+                    if (!response.ok) {
+                        throw new Error(`API returned status ${response.status}`);
+                    }
+                    
+                    // Get the response content type
+                    const contentType = response.headers.get('content-type');
+                    log(`Content-Type: ${contentType}`, 'info');
+                    
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    } else {
+                        log('Response is not JSON, attempting to get text', 'warn');
+                        return response.text().then(text => {
+                            throw new Error(`Expected JSON but got: ${text.substring(0, 100)}...`);
+                        });
+                    }
+                })
+                .then(data => {
+                    log('API response data:', 'success');
+                    log(data);
+                    
+                    // Update UI
+                    loadingSpinner.classList.add('d-none');
+                    
+                    // Process the complexities
+                    if (data.success && data.complexities && data.complexities.length > 0) {
+                        log(`Found ${data.complexities.length} complexity options`, 'success');
+                        
+                        apiStatus.className = 'alert alert-success';
+                        apiStatus.textContent = `Success! Found ${data.complexities.length} complexity options`;
+                        
+                        // Clear and populate the select
+                        complexitySelect.innerHTML = '<option value="">-- Select Task Complexity --</option>';
+                        
+                        data.complexities.forEach((complexity, index) => {
+                            log(`Complexity ${index}: ${JSON.stringify(complexity)}`, 'info');
+                            
+                            const option = document.createElement('option');
+                            option.value = complexity.complexity_level_id;
+                            
+                            let label = complexity.complexity_name + ' (' + complexity.allocated_minutes + ' min)';
+                            if (complexity.is_default) {
+                                label += ' [Default]';
+                            }
+                            
+                            option.textContent = label;
+                            option.dataset.ttcId = complexity.id; // Store the ttc ID for later
+                            
+                            complexitySelect.appendChild(option);
+                        });
+                        
+                        complexitySelect.disabled = false;
+                    } else {
+                        log('No complexities found or API error', 'warn');
+                        
+                        apiStatus.className = 'alert alert-warning';
+                        apiStatus.textContent = 'No complexity options found';
+                        
+                        complexitySelect.innerHTML = '<option value="">No complexity options found</option>';
+                        complexitySelect.disabled = true;
+                    }
+                })
+                .catch(error => {
+                    log(`Error: ${error.message}`, 'error');
+                    
+                    // Update UI
+                    loadingSpinner.classList.add('d-none');
+                    apiStatus.className = 'alert alert-danger';
+                    apiStatus.textContent = `Error: ${error.message}`;
+                    
+                    complexitySelect.innerHTML = `<option value="">Error: ${error.message}</option>`;
+                    complexitySelect.disabled = true;
+                });
+            }
+            
+            log('Debug tool initialized', 'success');
+        });
+    </script>
+</body>
+</html> 
