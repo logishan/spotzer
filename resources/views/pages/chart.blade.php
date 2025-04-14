@@ -1,4 +1,3 @@
-
 @extends('layouts.master')
 
 @section('styles')
@@ -65,9 +64,9 @@
                     <span class="na">type</span><span class="p">:</span> <span class="s1">'bar'</span><span class="p">,</span> <span class="c1">// default type of chart</span>
 
                     <span class="na">colors</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="s1">'data1'</span><span class="p">:</span> <span class="nx">Volgh</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="s2">"orange"</span><span class="p">],</span>
-                        <span class="s1">'data2'</span><span class="p">:</span> <span class="nx">Volgh</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="s2">"pink"</span><span class="p">]</span>
-                        <span class="s1">'data3'</span><span class="p">:</span> <span class="nx">Volgh</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="s2">"teal"</span><span class="p">]</span>
+                        <span class="s1">'data1'</span><span class="p">:</span> <span class="nx">ManilaSpotzer</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="s2">"orange"</span><span class="p">],</span>
+                        <span class="s1">'data2'</span><span class="p">:</span> <span class="nx">ManilaSpotzer</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="s2">"pink"</span><span class="p">]</span>
+                        <span class="s1">'data3'</span><span class="p">:</span> <span class="nx">ManilaSpotzer</span><span class="p">.</span><span class="nx">colors</span><span class="p">[</span><span class="s2">"teal"</span><span class="p">]</span>
                     <span class="p">},</span>
                     <span class="na">names</span><span class="p">:</span> <span class="p">{</span>
                     <span class="c1">// name of each serie</span>

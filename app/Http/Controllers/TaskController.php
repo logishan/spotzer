@@ -301,24 +301,6 @@ class TaskController extends Controller
                         'type' => 'text',
                         'required' => false,
                         'label' => 'SPON'
-                    ],
-                    [
-                        'name' => 'region',
-                        'type' => 'radio',
-                        'required' => true,
-                        'label' => 'Region',
-                        'options' => [
-                            'na' => 'North America',
-                            'emea' => 'EMEA',
-                            'apac' => 'APAC',
-                            'latam' => 'LATAM'
-                        ]
-                    ],
-                    [
-                        'name' => 'notes',
-                        'type' => 'textarea',
-                        'required' => false,
-                        'label' => 'Notes'
                     ]
                 ];
                 break;
@@ -337,24 +319,6 @@ class TaskController extends Controller
                         'type' => 'text',
                         'required' => false,
                         'label' => 'SPON'
-                    ],
-                    [
-                        'name' => 'region',
-                        'type' => 'radio',
-                        'required' => true,
-                        'label' => 'Region',
-                        'options' => [
-                            'na' => 'North America',
-                            'emea' => 'EMEA',
-                            'apac' => 'APAC',
-                            'latam' => 'LATAM'
-                        ]
-                    ],
-                    [
-                        'name' => 'notes',
-                        'type' => 'textarea',
-                        'required' => false,
-                        'label' => 'Notes'
                     ]
                 ];
                 break;
@@ -395,7 +359,6 @@ class TaskController extends Controller
             case 'Digital Media':
                 $rules = [
                     'partner' => 'required',
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
@@ -403,14 +366,12 @@ class TaskController extends Controller
             case 'Web Dev':
                 $rules = [
                     'link' => 'nullable|url',
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
                 
             case 'Web Design':
                 $rules = [
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
@@ -419,7 +380,6 @@ class TaskController extends Controller
                 $rules = [
                     'partner' => 'required',
                     'platform' => 'required|in:web,mobile,both',
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
@@ -432,7 +392,6 @@ class TaskController extends Controller
                 
             case 'Frontend':
                 $rules = [
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
@@ -440,7 +399,6 @@ class TaskController extends Controller
             case 'Manila AI':
                 $rules = [
                     'partner' => 'required',
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
@@ -448,7 +406,6 @@ class TaskController extends Controller
             case 'Migrations QA':
                 $rules = [
                     'partner' => 'required',
-                    'region' => 'required|in:na,emea,apac,latam',
                     'notes' => 'nullable|string'
                 ];
                 break;
@@ -486,7 +443,6 @@ class TaskController extends Controller
                 $data = [
                     'spon' => $request->spon,
                     'partner' => $request->partner,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;
@@ -495,7 +451,6 @@ class TaskController extends Controller
                 $data = [
                     'spon' => $request->spon,
                     'link' => $request->link,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;
@@ -503,7 +458,6 @@ class TaskController extends Controller
             case 'Web Design':
                 $data = [
                     'spon' => $request->spon,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;
@@ -513,7 +467,6 @@ class TaskController extends Controller
                     'spon' => $request->spon,
                     'partner' => $request->partner,
                     'platform' => $request->platform,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;
@@ -528,7 +481,6 @@ class TaskController extends Controller
             case 'Frontend':
                 $data = [
                     'spon' => $request->spon,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;
@@ -537,7 +489,6 @@ class TaskController extends Controller
                 $data = [
                     'spon' => $request->spon,
                     'partner' => $request->partner,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;
@@ -546,7 +497,6 @@ class TaskController extends Controller
                 $data = [
                     'spon' => $request->spon,
                     'partner' => $request->partner,
-                    'region' => $request->region,
                     'notes' => $request->notes
                 ];
                 break;

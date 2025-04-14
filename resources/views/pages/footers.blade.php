@@ -1,4 +1,3 @@
-
 @extends('layouts.master')
 
 @section('styles')
@@ -52,7 +51,7 @@
                                                         </ul>
                                                     </div>
                                                     <div class="col-lg-12 col-sm-12 mt-3 mt-lg-0 text-center">
-                                                        Copyright © 2023 <a href="javascript:void(0);">Volgh</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
+                                                        Copyright © 2023 <a href="javascript:void(0);">Manila Spotzer Portal</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
                                                     </div>
                                                 </div>
                                             </div>
@@ -97,7 +96,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-sm-12 col-md-7 mt-3 mt-lg-0 text-center">
-                                                        Copyright © 2023 <a href="javascript:void(0);">Volgh</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
+                                                        Copyright © 2023 <a href="javascript:void(0);">Manila Spotzer Portal</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
                                                     </div>
                                                 </div>
                                             </div>
@@ -149,7 +148,7 @@
                                                 </div>
                                                 <div class="row align-items-center flex-row-reverse">
                                                     <div class="col-lg-12 col-sm-12 mt-3 mt-lg-0 text-center">
-                                                        Copyright © 2023 <a href="javascript:void(0);">Volgh</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
+                                                        Copyright © 2023 <a href="javascript:void(0);">Manila Spotzer Portal</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +171,7 @@
                                             <div class="container">
                                                 <div class="row align-items-center flex-row-reverse">
                                                     <div class="col-lg-12 col-sm-12 mt-3 mt-lg-0 text-center">
-                                                        Copyright © 2023 <a href="javascript:void(0);">Volgh</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
+                                                        Copyright © 2023 <a href="javascript:void(0);">Manila Spotzer Portal</a>. Designed by <a href="javascript:void(0);">Spruko</a> All rights reserved.
                                                     </div>
                                                 </div>
                                             </div>
@@ -235,7 +234,7 @@
                                             <footer class="main-footer ps-0 pe-0">
                                                 <div class="row">
                                                     <div class="col-xl-8 col-lg-12 col-md-12 footer1">
-                                                        Copyright ©Volgh 2022. Design By<a href="https://spruko.com/"> Spruko</a>
+                                                        Copyright ©Manila Spotzer Portal 2022. Design By<a href="https://spruko.com/"> Spruko</a>
                                                     </div>
                                                     <div class="col-xl-4 col-lg-12 col-md-12 ms-auto text-end">
                                                         <ul class="footer-social-list ">
@@ -311,7 +310,7 @@
                                             <footer class="main-footer ps-0 pe-0">
                                                 <div class="row ">
                                                     <div class="col-xl-8 col-lg-12 col-md-12 footer1">
-                                                        Copyright ©Volgh 2022. Design By<a href="https://spruko.com/"> Spruko</a>
+                                                        Copyright ©Manila Spotzer Portal 2022. Design By<a href="https://spruko.com/"> Spruko</a>
                                                     </div>
                                                     <div class="col-xl-4 col-lg-12 col-md-12 ms-auto text-end">
                                                         <ul class="footer-social-list ">

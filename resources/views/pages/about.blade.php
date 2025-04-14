@@ -1,4 +1,3 @@
-
 @extends('layouts.master')
 
 @section('styles')
@@ -76,7 +75,7 @@
 								<div class="col-xl-6">
 									<div class="card mt-5">
 										<div class="card-body about-con pabout">
-											<h1 class="mb-4 fw-semibold">Why Volgh ?</h1>
+											<h1 class="mb-4 fw-semibold">Why Manila Spotzer Portal ?</h1>
 											<h4 class="leading-normal">majority have suffered alteration in some form, by injected humour</h4>
 											<p class="leading-normal">There are many variations of passages of Lorem Ipsum available, but the majority have suffered by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage
 												of Lorem Ipsum, you need to as necessary All the Lorem Ipsum generators on the Internet tend to repeat Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour
